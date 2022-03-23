@@ -1,6 +1,8 @@
 import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
+import { stores } from 'src/config/data'
+
 type LatLngLiteral = google.maps.LatLngLiteral
 type MapOptions = google.maps.MapOptions
 
@@ -8,13 +10,6 @@ const position = {
   lat: 33.5577451,
   lng: -7.6771939,
 }
-
-const positions = [
-  { position: { lat: 33.5577451, lng: -7.6771939 }, title: 'Ali Market' },
-  { position: { lat: 33.588713, lng: -7.6312917 }, title: '' },
-  { position: { lat: 33.522583, lng: -7.6466347 }, title: '' },
-  { position: { lat: 33.545774, lng: -7.6045887 }, title: '' },
-]
 
 export default function Map() {
   const mapRef = useRef<GoogleMap>()
@@ -43,7 +38,11 @@ export default function Map() {
   const onLoad = useCallback((map) => (mapRef.current = map), [])
 
   if (!isLoaded) {
-    return <div>Loading...</div>
+    return (
+      <div className='flex flex-grow items-center justify-center bg-gray-100 p-4'>
+        Loading...
+      </div>
+    )
   }
 
   return (
@@ -54,14 +53,14 @@ export default function Map() {
       options={options}
       onLoad={onLoad}
     >
-      {positions.map(({ position, title }, index) => {
+      {stores.map(({ position, title }, index) => {
         return <Marker position={position} title={title} key={index} />
       })}
 
       {!userGeoLocation ? null : (
         <Marker
           position={userGeoLocation}
-          icon="https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
+          icon='https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'
         />
       )}
     </GoogleMap>
