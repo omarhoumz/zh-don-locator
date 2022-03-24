@@ -16,12 +16,18 @@ const Home: NextPage = () => {
   )
 
   const tt = useCallback(() => {
-    navigator.geolocation.getCurrentPosition((d) => {
-      const coords = { lat: d.coords.latitude, lng: d.coords.longitude }
-      setUserGeoLocation(coords)
-      setZoom(14)
-      mapRef.current?.panTo(coords)
-    }, console.error)
+    navigator.geolocation.getCurrentPosition(
+      (d) => {
+        alert('d' + JSON.stringify(d))
+        const coords = { lat: d.coords.latitude, lng: d.coords.longitude }
+        setUserGeoLocation(coords)
+        setZoom(14)
+        mapRef.current?.panTo(coords)
+      },
+      (e) => {
+        alert(e.message)
+      },
+    )
   }, [])
 
   const onLoad = useCallback((d) => (mapRef.current = d), [])
