@@ -1,13 +1,15 @@
 import React from 'react'
 import { stores } from 'src/config/data'
 
-export default function StoresList() {
+export default function StoresList({ locateMe }: { locateMe: () => void }) {
   return (
     <section className='flex flex-col gap-2'>
       <header className='flex items-baseline justify-between'>
         <h2>33 Superettes</h2>
 
-        <button>Me Localiser</button>
+        <button onClick={locateMe} type='button'>
+          Me Localiser
+        </button>
       </header>
 
       <ul>

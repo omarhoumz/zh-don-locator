@@ -3,30 +3,16 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { stores } from 'src/config/data'
 
-type LatLngLiteral = google.maps.LatLngLiteral
+export type LatLngLiteral = google.maps.LatLngLiteral
 type MapOptions = google.maps.MapOptions
 
-const position = {
-  lat: 33.5577451,
-  lng: -7.6771939,
+type MapProps = {
+  onMapLoad: (map: google.maps.Map) => void | Promise<void>
+  zoom: number
+  userGeoLocation?: LatLngLiteral | null
 }
 
-export default function Map() {
-  const mapRef = useRef<GoogleMap>()
-  const [zoom, setZoom] = useState(12)
-  const [userGeoLocation, setUserGeoLocation] = useState<LatLngLiteral | null>(
-    null,
-  )
-
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition((d) => {
-      const coords = { lat: d.coords.latitude, lng: d.coords.longitude }
-      setUserGeoLocation(coords)
-      setZoom(14)
-      mapRef.current?.panTo(coords)
-    }, console.error)
-  }, [])
-
+export default function Map({ onMapLoad, zoom, userGeoLocation }: MapProps) {
   const options = useMemo<MapOptions>(
     () => ({ disableDefaultUI: true, clickableIcons: false }),
     [],
@@ -35,7 +21,7 @@ export default function Map() {
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string,
   })
 
-  const onLoad = useCallback((map) => (mapRef.current = map), [])
+  const onLoad = useCallback(onMapLoad, [onMapLoad])
 
   if (!isLoaded) {
     return (
