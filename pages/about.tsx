@@ -11,7 +11,7 @@ const About: NextPage = () => {
       <main className='flex-grow'>
         <Header />
 
-        <section className='prose p-4'>
+        <section className='prose mx-auto max-w-4xl py-6 px-4 lg:py-12 lg:px-0'>
           <h2>About</h2>
 
           <p>

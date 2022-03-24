@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
@@ -6,7 +7,15 @@ export default function Header() {
     <header className='flex justify-between p-4'>
       <h1>
         <Link href='/'>
-          <a>WE CARE</a>
+          <a className='flex items-center gap-1.5'>
+            <Image
+              width={28}
+              height={28}
+              src='/we-care.png'
+              alt='we care logo'
+            />
+            <span>WE CARE</span>
+          </a>
         </Link>
       </h1>
 
