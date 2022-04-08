@@ -11,6 +11,7 @@ import DefaultHead from '@/components/default-head'
 const Home: NextPage = () => {
   const mapRef = useRef<GoogleMap>()
   const [zoom, setZoom] = useState(12)
+  const [locateLoading, setLocateLoading] = useState(false)
   const [userGeoLocation, setUserGeoLocation] = useState<LatLngLiteral | null>(
     null,
   )
@@ -21,6 +22,7 @@ const Home: NextPage = () => {
   }, [])
 
   const locateMe = useCallback(() => {
+    setLocateLoading(true)
     if (navigator.geolocation) {
       if (userGeoLocation) {
         goTo(userGeoLocation)
@@ -37,10 +39,12 @@ const Home: NextPage = () => {
             setUserGeoLocation(coords)
             goTo(coords)
           }
+          setLocateLoading(false)
         },
         (e) => {
           const errorMessage = e.message
           alert(errorMessage + '\n' + 'Please allow location access')
+          setLocateLoading(false)
         },
       )
     }
@@ -49,14 +53,19 @@ const Home: NextPage = () => {
   const onLoad = useCallback((d) => (mapRef.current = d), [])
 
   return (
-    <div>
+    <>
       <DefaultHead />
 
-      <main className='flex h-screen flex-col text-teal-900'>
+      <div className='flex h-screen flex-col text-teal-900'>
         <Header />
-        <div className='grid flex-grow grid-rows-homepage md:grid-flow-col md:grid-cols-homepage md:grid-rows-1'>
-          <div className='order-2 overflow-auto p-4 md:order-1'>
-            <StoresList locateMe={locateMe} goTo={goTo} />
+
+        <main className='grid flex-grow grid-rows-homepage md:grid-flow-col md:grid-cols-homepage md:grid-rows-1'>
+          <div className='order-2 overflow-auto py-4 md:order-1'>
+            <StoresList
+              locateMe={locateMe}
+              goTo={goTo}
+              loading={locateLoading}
+            />
           </div>
           <div className='order-1 flex md:order-2'>
             <Map
@@ -65,9 +74,9 @@ const Home: NextPage = () => {
               userGeoLocation={userGeoLocation}
             />
           </div>
-        </div>
-      </main>
-    </div>
+        </main>
+      </div>
+    </>
   )
 }
 

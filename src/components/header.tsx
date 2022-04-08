@@ -4,7 +4,7 @@ import React from 'react'
 
 export default function Header() {
   return (
-    <header className='flex justify-between p-4'>
+    <header className='flex justify-between p-4 shadow-md'>
       <h1>
         <Link href='/'>
           <a className='flex items-center gap-1.5'>
