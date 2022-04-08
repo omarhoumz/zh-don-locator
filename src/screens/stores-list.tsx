@@ -90,7 +90,7 @@ export default function StoresList({
         </button>
       </header>
 
-      <ul>
+      <ul className='pb-20'>
         {stores.map(({ title, description, position }, index) => {
           return (
             <li
