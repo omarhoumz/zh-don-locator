@@ -45,8 +45,9 @@ export default function Map({ onMapLoad, zoom, userGeoLocation }: MapProps) {
             position={position}
             label={{
               text: title,
-              className:
-                'font-bold bg-slate-200 text-slate-800 px-1 py-0.5 rounded',
+              className: 'font-bold bg-sky-200/90 px-1 py-0.5 rounded',
+              color: '#0c4a6e',
+              fontSize: '12px',
             }}
             key={index}
           />
