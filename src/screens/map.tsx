@@ -1,5 +1,5 @@
 import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useMemo } from 'react'
 
 import { stores } from 'src/config/data'
 
@@ -40,7 +40,17 @@ export default function Map({ onMapLoad, zoom, userGeoLocation }: MapProps) {
       onLoad={onLoad}
     >
       {stores.map(({ position, title }, index) => {
-        return <Marker position={position} title={title} key={index} />
+        return (
+          <Marker
+            position={position}
+            label={{
+              text: title,
+              className:
+                'font-bold bg-slate-200 text-slate-800 px-1 py-0.5 rounded',
+            }}
+            key={index}
+          />
+        )
       })}
 
       {!userGeoLocation ? null : (
